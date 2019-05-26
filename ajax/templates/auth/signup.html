@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+
+
+
+{% block javascript %}
+<script>
+	
+	$("#id_username").change(function(){
+
+		var username = $(this).val();
+
+		$.ajax({
+			url: '/ajax/validate_username/',
+			data: {
+				'username':username
+			},
+			datatype: 'json',
+
+			success : function(data){
+				if (data.is_taken){
+					alert("A user with this username already exists.");
+				}
+			}
+
+		});
+
+	});
+
+</script>
+{% endblock javascript %}
+
+
+{% block content %}
+<div class="container">
+	<br>
+	<br>
+	<form method="POST">
+		{% csrf_token %}
+
+		{{form.as_p}}
+		<button type="submit" class="btn btn-primary" >Submit</button>
+	</form>
+</div>
+{% endblock content %}
